@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Stack;
 
-public class CommandMethodDesignPatternTest {
+public class CommandTest {
     private static class PictureEditor implements CommandReceiver {
         private float rotation = 0;
         private float width = 0;
