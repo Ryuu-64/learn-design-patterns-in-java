@@ -25,16 +25,9 @@ public class AdapterTest {
         }
     }
 
-    private static class PrintClient implements Client {
-        public void print(Printer printer) {
-            printer.print();
-        }
-    }
-
     @Test
     void test() {
         Printer printer = new PrinterAdapter(new LegacyPrinter());
-        PrintClient client = new PrintClient();
-        client.print(printer);
+        printer.print();
     }
 }

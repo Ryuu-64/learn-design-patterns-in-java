@@ -33,24 +33,17 @@ public class CompositeTest {
         }
     }
 
-    private static final class TaskClient implements Client {
-        public void execute() {
-            Task task11 = new LeafTask();
-            Task task12 = new LeafTask();
-
-            CompositeTask task1 = new CompositeTask(Arrays.asList(task11, task12));
-            Task task2 = new LeafTask();
-            Task task3 = new LeafTask();
-            Task task4 = new LeafTask();
-
-            CompositeTask task = new CompositeTask(Arrays.asList(task1, task2, task3, task4));
-            task.execute();
-        }
-    }
-
     @Test
     void test() {
-        TaskClient client = new TaskClient();
-        client.execute();
+        Task task11 = new LeafTask();
+        Task task12 = new LeafTask();
+
+        CompositeTask task1 = new CompositeTask(Arrays.asList(task11, task12));
+        Task task2 = new LeafTask();
+        Task task3 = new LeafTask();
+        Task task4 = new LeafTask();
+
+        CompositeTask task = new CompositeTask(Arrays.asList(task1, task2, task3, task4));
+        task.execute();
     }
 }
