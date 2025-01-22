@@ -3,16 +3,7 @@ package org.ryuu.learn.designpatterns.behavioral.chainofresponsibility;
 import org.junit.jupiter.api.Test;
 
 class ChainOfResponsibilityTest {
-    private static abstract class Handler implements HandlerInterface {
-        protected HandlerInterface nextHandler;
-
-        @Override
-        public void setNextHandler(HandlerInterface nextHandler) {
-            this.nextHandler = nextHandler;
-        }
-    }
-
-    private static class Level1Handler extends Handler {
+    private static class Level1Handler extends ConcreteHandler {
         @Override
         public void handle(Object request) {
             if (request == null) {
@@ -24,7 +15,7 @@ class ChainOfResponsibilityTest {
         }
     }
 
-    private static class Level2Handler extends Handler {
+    private static class Level2Handler extends ConcreteHandler {
         @Override
         public void handle(Object request) {
             System.out.println("Level 2 handler. Request is " + request + ".");
@@ -32,7 +23,7 @@ class ChainOfResponsibilityTest {
         }
     }
 
-    private static class Level3Handler extends Handler {
+    private static class Level3Handler extends ConcreteHandler {
         @Override
         public void handle(Object request) {
             System.out.println("Level 3 handler. Request is " + request + ".");
