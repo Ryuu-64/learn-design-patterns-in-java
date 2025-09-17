@@ -1,5 +1,5 @@
 plugins {
-    `java`
+    java
 }
 
 group = "org.ryuu"
