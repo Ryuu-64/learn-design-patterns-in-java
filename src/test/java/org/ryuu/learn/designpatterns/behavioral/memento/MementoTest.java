@@ -74,13 +74,10 @@ public class MementoTest {
 
         // Restore to previous state
         originator.restoreFromMemento(caretaker.getMemento(1));
-        String content;
-        content = originator.getContent();
-        assertEquals("Hello world.", content);
+        assertEquals("Hello world.", originator.getContent());
 
         // Restore to previous state
         originator.restoreFromMemento(caretaker.getMemento(0));
-        content = originator.getContent();
-        assertEquals("Hello", content);
+        assertEquals("Hello", originator.getContent());
     }
 }
