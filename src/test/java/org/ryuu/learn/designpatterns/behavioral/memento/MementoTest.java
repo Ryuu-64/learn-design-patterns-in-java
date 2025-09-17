@@ -1,6 +1,5 @@
 package org.ryuu.learn.designpatterns.behavioral.memento;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
