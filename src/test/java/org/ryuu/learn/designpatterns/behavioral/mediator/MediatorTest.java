@@ -1,70 +1,100 @@
 package org.ryuu.learn.designpatterns.behavioral.mediator;
 
 import org.junit.jupiter.api.Test;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class MediatorTest {
-    private interface Airplane extends Colleague {
-        void requestTakeoff();
-
-        void requestLanding();
-
-        void notifyAirTrafficControl(String message);
+    // Mediator
+    private interface AirTrafficControlTower {
+        void requestTakeoff(Airplane airplane);
+        void requestLanding(Airplane airplane);
+        void notifyRunwayFree();
     }
 
-    private static class CommercialAirplane implements Airplane, ConcreteColleague {
-        private final AirTrafficControlTower mediator;
+    // Colleague
+    private interface Airplane {
+        void requestTakeoff();
+        void requestLanding();
+        void receiveMessage(String message);
+    }
 
-        public CommercialAirplane(AirTrafficControlTower mediator) {
+    // Concrete Mediator
+    private static class AirportControlTower implements AirTrafficControlTower {
+        private boolean runwayFree = true;
+        private final Queue<String> queue = new LinkedList<>();
+
+        @Override
+        public void requestTakeoff(Airplane airplane) {
+            if (runwayFree) {
+                runwayFree = false;
+                airplane.receiveMessage("Takeoff granted. Proceed to runway.");
+            } else {
+                queue.add("takeoff:" + airplane.hashCode());
+                airplane.receiveMessage("Runway busy. Added to takeoff queue.");
+            }
+        }
+
+        @Override
+        public void requestLanding(Airplane airplane) {
+            if (runwayFree) {
+                runwayFree = false;
+                airplane.receiveMessage("Landing granted. Proceed to runway.");
+            } else {
+                queue.add("landing:" + airplane.hashCode());
+                airplane.receiveMessage("Runway busy. Added to landing queue.");
+            }
+        }
+
+        @Override
+        public void notifyRunwayFree() {
+            runwayFree = true;
+            if (!queue.isEmpty()) {
+                String next = queue.poll();
+                System.out.println("Next in queue: " + next);
+            }
+        }
+    }
+
+    // Concrete Colleague
+    private static class CommercialAirplane implements Airplane {
+        private final AirTrafficControlTower mediator;
+        private final String name;
+
+        public CommercialAirplane(String name, AirTrafficControlTower mediator) {
+            this.name = name;
             this.mediator = mediator;
         }
 
         @Override
         public void requestTakeoff() {
+            System.out.println(name + ": Requesting takeoff.");
             mediator.requestTakeoff(this);
         }
 
         @Override
         public void requestLanding() {
+            System.out.println(name + ": Requesting landing.");
             mediator.requestLanding(this);
         }
 
         @Override
-        public void notifyAirTrafficControl(String message) {
-            System.out.println("Commercial Airplane: " + message);
-        }
-    }
-
-    private interface AirTrafficControlTower extends Mediator {
-        void requestTakeoff(Airplane airplane);
-
-        void requestLanding(Airplane airplane);
-    }
-
-    private static class AirportControlTower implements AirTrafficControlTower, ConcreteMediator {
-        @Override
-        public void requestTakeoff(Airplane airplane) {
-            // Logic for coordinating takeoff
-            airplane.notifyAirTrafficControl("Requesting takeoff clearance.");
-        }
-
-        @Override
-        public void requestLanding(Airplane airplane) {
-            // Logic for coordinating landing
-            airplane.notifyAirTrafficControl("Requesting landing clearance.");
+        public void receiveMessage(String message) {
+            System.out.println(name + " received: " + message);
         }
     }
 
     @Test
     void test() {
-        // Instantiate the Mediator (Airport Control Tower)
-        AirTrafficControlTower controlTower = new AirportControlTower();
+        AirTrafficControlTower tower = new AirportControlTower();
 
-        // Instantiate Concrete Colleagues (Commercial Airplanes)
-        Airplane airplane1 = new CommercialAirplane(controlTower);
-        Airplane airplane2 = new CommercialAirplane(controlTower);
+        Airplane airplane1 = new CommercialAirplane("Airplane-1", tower);
+        Airplane airplane2 = new CommercialAirplane("Airplane-2", tower);
 
-        // Set up the association between Concrete Colleagues and the Mediator
         airplane1.requestTakeoff();
         airplane2.requestLanding();
+
+        tower.notifyRunwayFree();
+        tower.notifyRunwayFree();
     }
 }
