@@ -17,8 +17,8 @@ import java.util.Queue;
  * 多选列表互斥逻辑（选择一个禁用另一个）。
  */
 public class MediatorTest {
-    // Mediator
-    private interface AirTrafficControlTower extends Mediator {
+    @Mediator
+    private interface AirTrafficControlTower {
         void requestTakeoff(Airplane airplane);
 
         void requestLanding(Airplane airplane);
@@ -26,8 +26,8 @@ public class MediatorTest {
         void notifyRunwayFree();
     }
 
-    // Colleague
-    private interface Airplane extends Colleague {
+    @Colleague
+    private interface Airplane {
         void requestTakeoff();
 
         void requestLanding();
@@ -35,8 +35,8 @@ public class MediatorTest {
         void receiveMessage(String message);
     }
 
-    // Concrete Mediator
-    private static class AirportControlTower implements AirTrafficControlTower, ConcreteMediator {
+    @ConcreteMediator
+    private static class AirportControlTower implements AirTrafficControlTower {
         private boolean isRunwayFree = true;
         private final Queue<String> queue = new LinkedList<>();
 
@@ -72,8 +72,8 @@ public class MediatorTest {
         }
     }
 
-    // Concrete Colleague
-    private static class CommercialAirplane implements Airplane, ConcreteColleague {
+    @ConcreteColleague
+    private static class CommercialAirplane implements Airplane {
         private final AirTrafficControlTower mediator;
         private final String name;
 
