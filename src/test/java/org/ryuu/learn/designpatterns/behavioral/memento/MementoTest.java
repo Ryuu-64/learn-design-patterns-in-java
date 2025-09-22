@@ -8,53 +8,49 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MementoTest {
-    private static class DocumentMemento implements Memento<String> {
+    @Memento
+    private static class DocumentMemento {
         private final String content;
 
         public DocumentMemento(String content) {
             this.content = content;
         }
 
-        @Override
         public String getContent() {
             return content;
         }
     }
 
-    private static class DocumentOriginator implements Originator<String, DocumentMemento> {
+    @Originator
+    private static class DocumentOriginator {
         private String content = "";
 
-        @Override
         public String getContent() {
             return content;
         }
 
-        @Override
         public void writeContent(String content) {
             this.content += content;
         }
 
-        @Override
         public DocumentMemento createMemento() {
             return new DocumentMemento(content);
         }
 
-        @Override
         public void restoreFromMemento(DocumentMemento memento) {
             this.content = memento.getContent();
         }
     }
 
-    private static class DocumentCaretaker implements Caretaker<DocumentMemento> {
+    @Caretaker
+    private static class DocumentCaretaker {
         private final List<DocumentMemento> mementos = new ArrayList<>();
 
-        @Override
-        public DocumentMemento getMemento(int index) {
+        public DocumentMemento get(int index) {
             return mementos.get(index);
         }
 
-        @Override
-        public void addMemento(DocumentMemento memento) {
+        public void add(DocumentMemento memento) {
             mementos.add(memento);
         }
     }
@@ -66,18 +62,18 @@ public class MementoTest {
 
         // write content
         originator.writeContent("Hello");
-        caretaker.addMemento(originator.createMemento());
+        caretaker.add(originator.createMemento());
 
         // write content
         originator.writeContent(" world.");
-        caretaker.addMemento(originator.createMemento());
+        caretaker.add(originator.createMemento());
 
         // Restore to previous state
-        originator.restoreFromMemento(caretaker.getMemento(1));
+        originator.restoreFromMemento(caretaker.get(1));
         assertEquals("Hello world.", originator.getContent());
 
         // Restore to previous state
-        originator.restoreFromMemento(caretaker.getMemento(0));
+        originator.restoreFromMemento(caretaker.get(0));
         assertEquals("Hello", originator.getContent());
     }
 }
