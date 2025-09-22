@@ -2,7 +2,7 @@ plugins {
     java
 }
 
-group = "org.ryuu"
+group = "top.ryuu64"
 version = "1.0-SNAPSHOT"
 
 java {
