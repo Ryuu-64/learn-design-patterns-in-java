@@ -1,11 +1,11 @@
 package org.ryuu.learn.designpatterns.behavioral.memento;
 
-public interface Originator<C, M extends Memento<C>> {
-    C getContent();
+public interface Originator<TContent, TMemento extends Memento<TContent>> {
+    TContent getContent();
 
-    void writeContent(C content);
+    void writeContent(TContent content);
 
-    Memento<C> createMemento();
+    Memento<TContent> createMemento();
 
-    void restoreFromMemento(M memento);
+    void restoreFromMemento(TMemento memento);
 }

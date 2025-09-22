@@ -1,7 +1,7 @@
 package org.ryuu.learn.designpatterns.behavioral.memento;
 
-public interface Caretaker<M extends Memento<?>> {
-    M getMemento(int index);
+public interface Caretaker<TMemento extends Memento<?>> {
+    TMemento getMemento(int index);
 
-    void addMemento(M memento);
+    void addMemento(TMemento memento);
 }

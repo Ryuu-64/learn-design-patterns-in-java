@@ -1,5 +1,5 @@
 package org.ryuu.learn.designpatterns.behavioral.memento;
 
-public interface Memento<C> {
-    C getContent();
+public interface Memento<TContent> {
+    TContent getContent();
 }
