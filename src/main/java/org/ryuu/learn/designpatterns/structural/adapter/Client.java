@@ -6,5 +6,5 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.SOURCE)
 @java.lang.annotation.Target(ElementType.TYPE)
-public @interface Adapter {
+public @interface Client {
 }
