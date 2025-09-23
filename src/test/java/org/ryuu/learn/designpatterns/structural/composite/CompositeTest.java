@@ -17,13 +17,7 @@ public class CompositeTest {
         }
     }
 
-    private static class CompositeTask implements Task, Composite {
-        private final List<Task> tasks;
-
-        public CompositeTask(List<Task> tasks) {
-            this.tasks = tasks;
-        }
-
+    private record CompositeTask(List<Task> tasks) implements Task, Composite {
         @Override
         public void execute() {
             System.out.println("Composite task executed. leaf task count=" + tasks.size());

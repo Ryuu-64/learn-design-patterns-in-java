@@ -10,26 +10,14 @@ public class FlyweightTest {
         void draw(int x, int y);
     }
 
-    private static class FileIconDrawer implements IconDrawer, ConcreteFlyweight {
-        private final String type;
-
-        public FileIconDrawer(String type) {
-            this.type = type;
-        }
-
+    private record FileIconDrawer(String type) implements IconDrawer, ConcreteFlyweight {
         @Override
         public void draw(int x, int y) {
             System.out.println("Drawing " + type + " icon at (" + x + ", " + y + ")");
         }
     }
 
-    private static class FolderIconDrawer implements IconDrawer, ConcreteFlyweight {
-        private final String color;
-
-        public FolderIconDrawer(String color) {
-            this.color = color;
-        }
-
+    private record FolderIconDrawer(String color) implements IconDrawer, ConcreteFlyweight {
         @Override
         public void draw(int x, int y) {
             System.out.println("Drawing folder icon with color " + color + " at (" + x + ", " + y + ")");

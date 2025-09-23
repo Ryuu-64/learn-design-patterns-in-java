@@ -23,10 +23,8 @@ public class ProxyTest {
         void display();
     }
 
-    private static class RealImage implements RealSubject {
-        private final String filename;
-
-        public RealImage(String filename) {
+    private record RealImage(String filename) implements RealSubject {
+        private RealImage(String filename) {
             this.filename = filename;
             loadImageFromDisk();
         }
